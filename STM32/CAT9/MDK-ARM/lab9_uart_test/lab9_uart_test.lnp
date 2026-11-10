@@ -1,0 +1,22 @@
+--cpu Cortex-M3
+"lab9_uart_test\startup_stm32f103xb.o"
+"lab9_uart_test\main.o"
+"lab9_uart_test\stm32f1xx_it.o"
+"lab9_uart_test\stm32f1xx_hal_msp.o"
+"lab9_uart_test\stm32f1xx_hal_gpio_ex.o"
+"lab9_uart_test\stm32f1xx_hal_uart.o"
+"lab9_uart_test\stm32f1xx_hal.o"
+"lab9_uart_test\stm32f1xx_hal_rcc.o"
+"lab9_uart_test\stm32f1xx_hal_rcc_ex.o"
+"lab9_uart_test\stm32f1xx_hal_gpio.o"
+"lab9_uart_test\stm32f1xx_hal_dma.o"
+"lab9_uart_test\stm32f1xx_hal_cortex.o"
+"lab9_uart_test\stm32f1xx_hal_pwr.o"
+"lab9_uart_test\stm32f1xx_hal_flash.o"
+"lab9_uart_test\stm32f1xx_hal_flash_ex.o"
+"lab9_uart_test\stm32f1xx_hal_exti.o"
+"lab9_uart_test\system_stm32f1xx.o"
+--strict --scatter "lab9_uart_test\lab9_uart_test.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "lab9_uart_test.map" -o lab9_uart_test\lab9_uart_test.axf
