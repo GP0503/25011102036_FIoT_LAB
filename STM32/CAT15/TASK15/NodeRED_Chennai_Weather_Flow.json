@@ -1,0 +1,289 @@
+[
+  {
+    "id": "dc5f14ed8d4c4ae5",
+    "type": "tab",
+    "label": "Chennai Weather + BME280",
+    "disabled": false,
+    "info": "BME280 local readings and OpenWeatherMap Chennai readings via MQTT."
+  },
+  {
+    "id": "642e1d5b54fd4a3e",
+    "type": "mqtt-broker",
+    "name": "broker.emqx.io (public)",
+    "broker": "broker.emqx.io",
+    "port": "1883",
+    "clientid": "",
+    "autoConnect": true,
+    "usetls": false,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "autoUnsubscribe": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "closeTopic": "",
+    "closeQos": "0",
+    "closePayload": "",
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": ""
+  },
+  {
+    "id": "4e027d3ecb0c4114",
+    "type": "inject",
+    "z": "dc5f14ed8d4c4ae5",
+    "name": "Every 5 seconds",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "5",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "1",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 150,
+    "y": 100,
+    "wires": [
+      [
+        "898049ad7d5e4faf"
+      ]
+    ]
+  },
+  {
+    "id": "898049ad7d5e4faf",
+    "type": "function",
+    "z": "dc5f14ed8d4c4ae5",
+    "name": "Build Chennai API URL",
+    "func": "// Paste your OpenWeatherMap API key between the quotes below.\nconst API_KEY = \"PASTE_YOUR_OPENWEATHER_API_KEY_HERE\";\nif (!API_KEY || API_KEY === \"PASTE_YOUR_OPENWEATHER_API_KEY_HERE\") {\n    node.error(\"Add your OpenWeatherMap API key in the Build Chennai API URL function node.\", msg);\n    return null;\n}\nmsg.method = \"GET\";\nmsg.url = \"https://api.openweathermap.org/data/2.5/weather?q=Chennai,IN&appid=\" +\n    encodeURIComponent(API_KEY) + \"&units=metric\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 390,
+    "y": 100,
+    "wires": [
+      [
+        "6ffc34fdce374717"
+      ]
+    ]
+  },
+  {
+    "id": "6ffc34fdce374717",
+    "type": "http request",
+    "z": "dc5f14ed8d4c4ae5",
+    "name": "GET OpenWeatherMap",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": true,
+    "headers": [],
+    "x": 640,
+    "y": 100,
+    "wires": [
+      [
+        "b94b28e593ef4ed9"
+      ]
+    ]
+  },
+  {
+    "id": "b94b28e593ef4ed9",
+    "type": "function",
+    "z": "dc5f14ed8d4c4ae5",
+    "name": "Extract API readings",
+    "func": "const d = msg.payload;\nif (!d || !d.main || !Array.isArray(d.weather) || !d.weather[0]) {\n    node.error(\"Invalid OpenWeatherMap response. Check API key, internet, and API response.\", msg);\n    return null;\n}\nconst p = {\n    source: \"openweathermap\",\n    city: d.name || \"Chennai\",\n    temperature: Number(d.main.temp),\n    humidity: Number(d.main.humidity),\n    pressure: Number(d.main.pressure),\n    condition: String(d.weather[0].main || \"Unknown\"),\n    description: String(d.weather[0].description || \"\"),\n    updated: new Date().toISOString()\n};\nif (![p.temperature, p.humidity, p.pressure].every(Number.isFinite)) {\n    node.error(\"Weather API returned invalid numeric values.\", msg);\n    return null;\n}\nmsg.topic = \"snuc-iot/chennai/weather\";\nmsg.payload = p;\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 890,
+    "y": 100,
+    "wires": [
+      [
+        "2c42693db464499f"
+      ]
+    ]
+  },
+  {
+    "id": "2c42693db464499f",
+    "type": "mqtt out",
+    "z": "dc5f14ed8d4c4ae5",
+    "name": "Publish Chennai API MQTT",
+    "topic": "",
+    "qos": "0",
+    "retain": "true",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "642e1d5b54fd4a3e",
+    "x": 1150,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "4085949d05934898",
+    "type": "mqtt in",
+    "z": "dc5f14ed8d4c4ae5",
+    "name": "BME280 MQTT input",
+    "topic": "snuc-iot/stm32-bme280/node1",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "642e1d5b54fd4a3e",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 180,
+    "y": 260,
+    "wires": [
+      [
+        "6a5ee4427cb54399"
+      ]
+    ]
+  },
+  {
+    "id": "79ae6a832c074a3d",
+    "type": "mqtt in",
+    "z": "dc5f14ed8d4c4ae5",
+    "name": "Chennai API MQTT input",
+    "topic": "snuc-iot/chennai/weather",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "642e1d5b54fd4a3e",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 180,
+    "y": 340,
+    "wires": [
+      [
+        "6a5ee4427cb54399"
+      ]
+    ]
+  },
+  {
+    "id": "6a5ee4427cb54399",
+    "type": "function",
+    "z": "dc5f14ed8d4c4ae5",
+    "name": "Combine readings + four inferences",
+    "func": "let d = msg.payload;\nif (typeof d === \"string\") {\n    try { d = JSON.parse(d); }\n    catch (e) { node.warn(\"Ignoring non-JSON MQTT message\"); return null; }\n}\nif (!d || typeof d !== \"object\") return null;\n\nconst state = flow.get(\"weatherState\") || { bme: null, api: null };\nif (msg.topic === \"snuc-iot/stm32-bme280/node1\") {\n    const t = Number(d.temperature), h = Number(d.humidity), p = Number(d.pressure);\n    if (![t, h, p].every(Number.isFinite)) {\n        node.warn(\"BME280 JSON must contain numeric temperature, humidity and pressure.\");\n        return null;\n    }\n    state.bme = { temperature: t, humidity: h, pressure: p, updated: new Date().toISOString() };\n} else if (msg.topic === \"snuc-iot/chennai/weather\") {\n    const t = Number(d.temperature), h = Number(d.humidity), p = Number(d.pressure);\n    if (![t, h, p].every(Number.isFinite)) {\n        node.warn(\"Chennai API JSON must contain numeric temperature, humidity and pressure.\");\n        return null;\n    }\n    state.api = {\n        temperature: t, humidity: h, pressure: p,\n        condition: String(d.condition || \"Unknown\"),\n        description: String(d.description || \"\"),\n        updated: d.updated || new Date().toISOString()\n    };\n} else {\n    return null;\n}\nflow.set(\"weatherState\", state);\n\nconst b = state.bme, a = state.api;\nconst rainSignal = !!a && (/rain|drizzle|thunderstorm/i.test(a.condition) ||\n    (a.humidity >= 80 && a.pressure <= 1005));\nconst inferences = [\n    {\n        title: \"Rain-related conditions\",\n        level: rainSignal ? \"warning\" : \"normal\",\n        text: !a ? \"Waiting for Chennai API data.\" :\n            (rainSignal ? \"Rain is reported or humidity and pressure suggest possible unsettled weather.\" :\n            \"No strong rain signal from the current API conditions.\")\n    },\n    {\n        title: \"High humidity\",\n        level: a && a.humidity >= 70 ? \"warning\" : \"normal\",\n        text: !a ? \"Waiting for Chennai API humidity.\" :\n            (a.humidity >= 70 ? \"Chennai humidity is high; the air may feel sticky.\" :\n            \"Chennai humidity is below the high-humidity threshold.\")\n    },\n    {\n        title: \"Indoor vs outdoor temperature\",\n        level: b && a && Math.abs(b.temperature - a.temperature) > 2 ? \"info\" : \"normal\",\n        text: !b || !a ? \"Waiting for both BME280 and API readings.\" :\n            (b.temperature > a.temperature + 2 ?\n                \"The BME280 location is over 2°C warmer than Chennai's API reading.\" :\n             b.temperature < a.temperature - 2 ?\n                \"The BME280 location is over 2°C cooler than Chennai's API reading.\" :\n                \"The two temperature readings are within 2°C.\")\n    },\n    {\n        title: \"Atmospheric pressure\",\n        level: a && a.pressure < 1008 ? \"info\" : \"normal\",\n        text: !a ? \"Waiting for Chennai API pressure.\" :\n            (a.pressure < 1008 ? \"Pressure is relatively low; unsettled weather is possible.\" :\n            \"Pressure is not below the simple low-pressure threshold.\")\n    }\n];\nmsg.payload = { bme: b, api: a, inferences: inferences, receivedAt: new Date().toISOString() };\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 500,
+    "y": 300,
+    "wires": [
+      [
+        "c6ac5e6aefa046df"
+      ]
+    ]
+  },
+  {
+    "id": "c7854db6a23d4cfe",
+    "type": "ui-base",
+    "name": "Weather Dashboard",
+    "path": "/dashboard",
+    "includeClientData": true,
+    "acceptsClientConfig": [
+      "ui-control",
+      "ui-notification",
+      "ui-text",
+      "ui-template"
+    ],
+    "showPathInSidebar": true,
+    "navigationStyle": "default",
+    "titleBarStyle": "default"
+  },
+  {
+    "id": "7a2bdbb76004439d",
+    "type": "ui-theme",
+    "name": "Weather Theme",
+    "colors": {
+      "surface": "#ffffff",
+      "primary": "#1976d2",
+      "bgPage": "#f4f6f8",
+      "groupBg": "#ffffff",
+      "groupOutline": "#d9dfe7"
+    },
+    "sizes": {
+      "density": "default",
+      "pagePadding": "16px",
+      "groupGap": "16px",
+      "groupBorderRadius": "10px",
+      "widgetGap": "12px"
+    }
+  },
+  {
+    "id": "4dc271c250794bde",
+    "type": "ui-page",
+    "name": "Chennai Weather",
+    "ui": "c7854db6a23d4cfe",
+    "path": "/chennai-weather",
+    "icon": "cloud",
+    "layout": "grid",
+    "theme": "7a2bdbb76004439d",
+    "breakpoints": [
+      {
+        "name": "Default",
+        "px": "0",
+        "cols": "3"
+      }
+    ],
+    "order": 1,
+    "className": ""
+  },
+  {
+    "id": "8c35748253334255",
+    "type": "ui-group",
+    "name": "Live Weather Monitoring",
+    "page": "4dc271c250794bde",
+    "width": "12",
+    "height": "1",
+    "order": 1,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false"
+  },
+  {
+    "id": "c6ac5e6aefa046df",
+    "type": "ui-template",
+    "z": "dc5f14ed8d4c4ae5",
+    "group": "8c35748253334255",
+    "name": "Six readings + four inferences",
+    "order": 1,
+    "width": "12",
+    "height": "10",
+    "format": "<template>\n  <div class=\"weather-wrap\">\n    <div class=\"source-grid\">\n      <section class=\"source-card\">\n        <h3>BME280 — Room / Sensor Location</h3>\n        <div class=\"metrics\">\n          <div class=\"metric\"><span>Temperature</span><strong>{{ val(msg?.payload?.bme?.temperature, ' °C') }}</strong></div>\n          <div class=\"metric\"><span>Humidity</span><strong>{{ val(msg?.payload?.bme?.humidity, ' %') }}</strong></div>\n          <div class=\"metric\"><span>Pressure</span><strong>{{ val(msg?.payload?.bme?.pressure, ' hPa') }}</strong></div>\n        </div><small>STM32 + BME280 via MQTT</small>\n      </section>\n      <section class=\"source-card\">\n        <h3>Chennai — OpenWeatherMap</h3>\n        <div class=\"metrics\">\n          <div class=\"metric\"><span>Temperature</span><strong>{{ val(msg?.payload?.api?.temperature, ' °C') }}</strong></div>\n          <div class=\"metric\"><span>Humidity</span><strong>{{ val(msg?.payload?.api?.humidity, ' %') }}</strong></div>\n          <div class=\"metric\"><span>Pressure</span><strong>{{ val(msg?.payload?.api?.pressure, ' hPa') }}</strong></div>\n        </div><small>Current condition: {{ msg?.payload?.api?.description || 'Waiting for API data' }}</small>\n      </section>\n    </div>\n    <section class=\"inference-section\">\n      <h3>Four Weather Inferences</h3>\n      <div class=\"inference-grid\">\n        <article v-for=\"(item, index) in (msg?.payload?.inferences || [])\" :key=\"index\" class=\"inference-card\" :class=\"item.level\">\n          <div class=\"inference-number\">0{{ index + 1 }}</div>\n          <div><strong>{{ item.title }}</strong><p>{{ item.text }}</p></div>\n        </article>\n      </div>\n      <p class=\"disclaimer\">These are simple threshold-based project indicators, not guaranteed forecasts.</p>\n    </section>\n    <div class=\"updated\">Last update: {{ msg?.payload?.receivedAt || 'Waiting for MQTT messages…' }}</div>\n  </div>\n</template>\n<script>\nexport default {\n  methods: {\n    val(value, suffix) {\n      return value === null || value === undefined || !Number.isFinite(Number(value))\n        ? '--' : Number(value).toFixed(1) + suffix;\n    }\n  }\n}\n</script>\n<style>\n.weather-wrap { width:100%; color:var(--v-theme-on-surface); }\n.source-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }\n.source-card,.inference-card { background:rgb(var(--v-theme-surface)); border:1px solid rgba(120,130,145,.25); border-radius:14px; padding:18px; }\n.source-card h3,.inference-section h3 { margin:0 0 16px; font-size:1.05rem; font-weight:650; }\n.metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }\n.metric { background:rgba(25,118,210,.07); border-radius:10px; padding:12px 8px; min-width:0; }\n.metric span { display:block; font-size:.78rem; opacity:.75; margin-bottom:8px; }\n.metric strong { font-size:clamp(1rem,2vw,1.35rem); overflow-wrap:anywhere; }\n.source-card small { display:block; margin-top:14px; opacity:.7; }\n.inference-section { margin-top:20px; }\n.inference-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; }\n.inference-card { display:flex; gap:12px; align-items:flex-start; }\n.inference-card.warning { border-left:5px solid #ed9b28; }\n.inference-card.info { border-left:5px solid #1976d2; }\n.inference-card.normal { border-left:5px solid #42a57a; }\n.inference-number { font-size:1.25rem; font-weight:750; opacity:.55; }\n.inference-card p { margin:7px 0 0; line-height:1.4; font-size:.9rem; }\n.disclaimer,.updated { font-size:.78rem; opacity:.68; margin-top:14px; }\n</style>",
+    "storeOutMessages": true,
+    "passthru": true,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 850,
+    "y": 300,
+    "wires": [
+      []
+    ]
+  }
+]

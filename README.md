@@ -34,7 +34,9 @@ Experiments are grouped as `<Platform>/CAT<n>/TASK<n><X>/`. Every task folder is
     ├── CAT10/  TASK10A/ · TASK10B/ · TASK10C/
     ├── CAT11/  TASK11A/ · TASK11B/ · TASK11C/
     ├── CAT12/  TASK12A/ · TASK12B/ · TASK12C/
-    └── CAT13/  TASK13/
+    ├── CAT13/  TASK13/
+    ├── CAT14/  TASK14/
+    └── CAT15/  TASK15/   (+ Node-RED flow .json and dashboard.png)
         each:   README.md · circuit.png · <project>.ioc · .mxproject · Core/ · Drivers/ · MDK-ARM/ (*.uvprojx, startup_*.s)
 ```
 
@@ -71,6 +73,8 @@ Each STM32 task folder is a complete STM32CubeMX + Keil MDK project: the `.ioc` 
 | | | | 12B ESP8266 HTTP Server Bring-Up | NUCLEO-F401 + Wemos D1 Mini | [STM32/CAT12/TASK12B](STM32/CAT12/TASK12B) |
 | | | | 12C Raw HTTP Response with BME280 Data | NUCLEO-F401 + BME280 + Wemos D1 Mini | [STM32/CAT12/TASK12C](STM32/CAT12/TASK12C) |
 | CAT13 | 27/10/2026 | Sensor Interfacing (BME280) – (MQTT) – Node Analytics | 13 BME280 Telemetry Publishing over MQTT | NUCLEO-F401 + BME280 + Wemos D1 Mini | [STM32/CAT13/TASK13](STM32/CAT13/TASK13) |
+| CAT14 | 04/11/2026 | IoT Integration Platform – Node-RED: Two-Player Competitive IoT Snake Game (End Semester Lab) | 14 Level 1 – Player node: joystick → MQTT direction commands | Blue Pill + joystick + Wemos D1 Mini · Node-RED | [STM32/CAT14/TASK14](STM32/CAT14/TASK14) |
+| CAT15 | 12/11/2026 | Sensor Interfacing (BME280) – MQTT – Node-RED: Live Weather Monitoring Dashboard with Node Analytics | 15 Live weather dashboard with four inferences (BME280 + OpenWeatherMap) | NUCLEO-F401 + BME280 + Wemos D1 Mini · Node-RED | [STM32/CAT15/TASK15](STM32/CAT15/TASK15) |
 
 The CAT10 lab sheet prints its tasks as 9A–9C; they are numbered 10A–10C here, following the coursework numbering. One firmware covers all three CAT10 tasks, so the same project is placed in each of those task folders.
 
