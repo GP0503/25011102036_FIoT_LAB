@@ -66,6 +66,8 @@ The on-board LED connected to P1.0 is blinked at about 1 Hz by writing directly 
 - `unsigned int` loop counters (16-bit on the 8051) keep both loop limits small and easy to tune.
 - The Keil project [`LED_BLINK.uvproj`](LED_BLINK.uvproj) compiles `STARTUP.A51`, `main.c` and `delay.c` together and writes `Objects/LED_BLINK.hex`.
 
+> `Objects/LED_BLINK.hex` currently holds a stand-in hex file from another lab build (a Timer-0 Port 1 blink), added as advised by the course instructor. Building this project in Keil (F7) overwrites it with this program's own firmware.
+
 ### 3. Inference
 
 The LED on P1.0 blinks continuously at about 1 Hz. The experiment shows the full tool chain (Keil C51 project → hex file → ISP programming) and direct register-level GPIO output control on the AT89S52.
