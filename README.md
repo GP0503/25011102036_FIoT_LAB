@@ -2,7 +2,7 @@
 
 **Course:** 25CS2741 Fundamentals of Internet of Things + Lab
 
-**Student:** Krish K (Krish Kalaiselvan) · Reg. No. 25011102049 · II Year B.Tech CSE (IoT), Section IoT-A
+**Student:** Guruprasad Baskar · Reg. No. 25011102036 · II Year B.Tech CSE (IoT), Section IoT-A
 
 **Institution:** Shiv Nadar University, Chennai
 
@@ -15,7 +15,7 @@ This repository contains my laboratory experiment submissions for 25CS2741. Expe
 Experiments are grouped as `<Platform>/CAT<n>/TASK<n><X>/`. Every task folder is a complete project on its own, with its `README.md` and `circuit.png`.
 
 ```text
-25011102049_FIoT_LAB/
+25011102036_FIoT_LAB/
 │
 ├── README.md
 ├── .gitignore
