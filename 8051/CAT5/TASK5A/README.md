@@ -63,7 +63,6 @@ Timer 0 provides a hardware time base. A software PWM signal on P1.0 fades the L
 - All timing comes from Timer 0 overflows; the code has no delay loops.
 - Project: [`LED_FADE_PWM.uvproj`](LED_FADE_PWM.uvproj); output `Objects/LED_FADE_PWM.hex`.
 
-> `Objects/LED_FADE_PWM.hex` currently holds a stand-in hex file from an earlier LED-fade build (Timer-0 interrupt PWM on P1.0), added as advised by the course instructor. Building this project in Keil (F7) overwrites it with this program's own firmware.
 
 ### 3. Inference
 
