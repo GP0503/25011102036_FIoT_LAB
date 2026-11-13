@@ -67,7 +67,7 @@ The lab sheet does not allow a blocking delay for long-press detection, so the p
 - `DEBOUNCE_MS 30u`, `LONG_PRESS_MS 1000u`, `BLINK_HALF_MS 250u`: timing constants.
 - `Switch_ScanEvent()`: debounce + press-duration classification on release.
 - `Handle_ShortPress()`, `Handle_LongPress()`, `Blink_Update()`: the actions in the table above.
-- CubeMX configuration: [`LAB_8_TASKC.ioc`](LAB_8_TASKC.ioc) · Keil project: [`MDK-ARM/LAB_8_TASKC.uvprojx`](MDK-ARM/LAB_8_TASKC.uvprojx)
+- CubeMX configuration: [`LAB_8C.ioc`](LAB_8C.ioc) · Keil project: [`MDK-ARM/LAB_8C.uvprojx`](MDK-ARM/LAB_8C.uvprojx)
 
 ### 3. Inference
 

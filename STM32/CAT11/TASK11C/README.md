@@ -60,7 +60,7 @@ Because nothing in the loop waits, the blinking continues smoothly while the but
 - `DEBOUNCE_MS 30u`, `LONG_PRESS_MS 1000u`, `BLINK_HALF_MS 200u`: timing constants.
 - `Button_ScanEvent()`: debounce and press-duration classification on release.
 - `Handle_ShortPress()`, `Handle_LongPress()`, `Blink_Update()`: the actions in the table above.
-- CubeMX configuration: [`LAB_11_TASK3.ioc`](LAB_11_TASK3.ioc) · Keil project: [`MDK-ARM/LAB_11_TASK3.uvprojx`](MDK-ARM/LAB_11_TASK3.uvprojx)
+- CubeMX configuration: [`LAB_11C.ioc`](LAB_11C.ioc) · Keil project: [`MDK-ARM/LAB_11C.uvprojx`](MDK-ARM/LAB_11C.uvprojx)
 
 ### 3. Inference
 

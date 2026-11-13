@@ -56,7 +56,7 @@ Because there is no delay in the loop, the switch is sampled continuously and th
 - `SWITCH_PORT / SWITCH_PIN = GPIOB / GPIO_PIN_15`, `SWITCH_PRESSED_LEVEL = GPIO_PIN_SET`: switch to 3.3 V.
 - `Switch_IsPressed()`: `HAL_GPIO_ReadPin()` → 1 when pressed, 0 otherwise.
 - `Led_Write(on)`: `HAL_GPIO_WritePin()` with the level for ON / OFF.
-- CubeMX configuration: [`LAB_8_TASKA.ioc`](LAB_8_TASKA.ioc) · Keil project: [`MDK-ARM/LAB_8_TASKA.uvprojx`](MDK-ARM/LAB_8_TASKA.uvprojx)
+- CubeMX configuration: [`LAB_8A.ioc`](LAB_8A.ioc) · Keil project: [`MDK-ARM/LAB_8A.uvprojx`](MDK-ARM/LAB_8A.uvprojx)
 
 ### 3. Inference
 

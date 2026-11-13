@@ -52,7 +52,7 @@ The LED is driven from a remembered variable (`led_state`), not from the button 
 - `DEBOUNCE_MS 30u`: stability window for a new button level.
 - `Button_ScanPressEvent()`: debounce + press-edge detection.
 - `Led_Toggle()`: `HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5)` and updates `led_state`.
-- CubeMX configuration: [`LAB_11_TASK2.ioc`](LAB_11_TASK2.ioc) · Keil project: [`MDK-ARM/LAB_11_TASK2.uvprojx`](MDK-ARM/LAB_11_TASK2.uvprojx)
+- CubeMX configuration: [`LAB_11B.ioc`](LAB_11B.ioc) · Keil project: [`MDK-ARM/LAB_11B.uvprojx`](MDK-ARM/LAB_11B.uvprojx)
 
 ### 3. Inference
 

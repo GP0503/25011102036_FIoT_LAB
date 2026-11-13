@@ -61,7 +61,7 @@ At start-up the debounce variables are seeded with the current switch level, so 
 - `DEBOUNCE_MS 30u`: stability window for a new switch level.
 - `Switch_ScanPressEvent()`: debounce state machine; returns 1 only on a confirmed press edge.
 - `Led_Toggle()`: `HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13)` and updates the remembered `led_state`.
-- CubeMX configuration: [`LAB_8_TASKB.ioc`](LAB_8_TASKB.ioc) · Keil project: [`MDK-ARM/LAB_8_TASKB.uvprojx`](MDK-ARM/LAB_8_TASKB.uvprojx)
+- CubeMX configuration: [`LAB_8B.ioc`](LAB_8B.ioc) · Keil project: [`MDK-ARM/LAB_8B.uvprojx`](MDK-ARM/LAB_8B.uvprojx)
 
 ### 3. Inference
 

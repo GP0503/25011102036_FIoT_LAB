@@ -67,7 +67,7 @@ CubeMX generates `SystemClock_Config()` and `MX_GPIO_Init()`, which enable the G
 - `LED_PORT / LED_PIN = GPIOA / GPIO_PIN_5`, `LED_ON_LEVEL = GPIO_PIN_SET`: LD2 is active HIGH.
 - `BLINK_DELAY_MS 500u`: fixed half-period of the blink.
 - `Led_Write(on)`: `HAL_GPIO_WritePin()` with the ON / OFF level.
-- CubeMX configuration: [`LAB_11_TASK1.ioc`](LAB_11_TASK1.ioc) · Keil project: [`MDK-ARM/LAB_11_TASK1.uvprojx`](MDK-ARM/LAB_11_TASK1.uvprojx)
+- CubeMX configuration: [`LAB_11A.ioc`](LAB_11A.ioc) · Keil project: [`MDK-ARM/LAB_11A.uvprojx`](MDK-ARM/LAB_11A.uvprojx)
 
 ### 3. Inference
 
